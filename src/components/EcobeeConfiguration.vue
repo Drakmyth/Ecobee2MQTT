@@ -5,8 +5,8 @@
     <div class="ecobee-config">
         <h2>Ecobee Configuration</h2>
         <form>
-            <label for="apikey">API Key:</label>
-            <input type="text" id="apikey" name="apikey" /><br />
+            <label for="ecobee-apikey">API Key:</label>
+            <input type="text" id="ecobee-apikey" name="ecobee-apikey" /><br />
             <button>Request PIN</button><br />
             <span>PIN:</span>
             <span>ABC123</span><br />
