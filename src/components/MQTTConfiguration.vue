@@ -4,6 +4,28 @@
 <template>
     <div class="mqtt-config">
         <h2>MQTT Configuration</h2>
+        <form>
+            <label for="mqtt-broker">Broker Address:</label>
+            <input type="text" id="mqtt-broker" name="mqtt-broker" /><br />
+            <input type="checkbox" id="mqtt-credentials" />
+            <label for="mqtt-credentials">Use Credentials</label><br />
+            <label for="mqtt-username">Username:</label>
+            <input type="text" id="mqtt-username" name="mqtt-username" /><br />
+            <label for="mqtt-password">Password:</label>
+            <input type="text" id="mqtt-password" name="mqtt-password" /><br />
+            <input type="checkbox" id="mqtt-tls" />
+            <label for="mqtt-tls">Use SSL/TLS</label><br />
+            <label for="mqtt-sslkey">SSL/TLS Key:</label>
+            <input type="text" id="mqtt-sslkey" name="mqtt-sslkey" /><br />
+            <label for="mqtt-sslcert">SSL/TLS Certificate:</label>
+            <input type="text" id="mqtt-sslcert" name="mqtt-sslcert" /><br />
+            <label for="topic-prefix">Topic Prefix:</label>
+            <input type="text" id="mqtt-prefix" name="mqtt-prefix" /><br />
+            <input type="checkbox" id="mqtt-retain" />
+            <label for="mqtt-retain">Retain</label><br />
+            <label for="mqtt-qos">QoS:</label>
+            <input type="number" id="mqtt-qos" min="0" max="2" value="0" />
+        </form>
     </div>
 </template>
 
