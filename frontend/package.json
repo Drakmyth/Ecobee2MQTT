@@ -3,9 +3,8 @@
     "version": "1.0.0",
     "description": "A software bridge to access sensor data and allow communication with Ecobee APIs via MQTT topics.",
     "scripts": {
-        "dev": "vite",
         "build": "vue-tsc --noEmit && vite build",
-        "preview": "vite preview"
+        "serve": "vite"
     },
     "repository": {
         "type": "git",
