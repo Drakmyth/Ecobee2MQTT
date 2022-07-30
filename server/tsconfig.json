@@ -7,8 +7,12 @@
         "target": "ESNext",
         "esModuleInterop": true
     },
+    "types": [
+        "jest"
+    ],
     "include": [
-        "src/**/*.ts"
+        "src/**/*.ts",
+        "tests/**/*.test.ts"
     ],
     "exclude": [
         "node_modules"
