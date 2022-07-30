@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NavBar.vue renders correctly 1`] = `
+"<nav class=\\"navbar\\"><span class=\\"navbar-title\\">Ecobee2MQTT</span>
+  <ul>
+    <li>
+      <router-link-stub to=\\"/\\" replace=\\"false\\" custom=\\"false\\" ariacurrentvalue=\\"page\\"></router-link-stub>
+    </li>
+    <li>
+      <router-link-stub to=\\"/settings\\" replace=\\"false\\" custom=\\"false\\" ariacurrentvalue=\\"page\\"></router-link-stub>
+    </li>
+  </ul>
+</nav>"
+`;
