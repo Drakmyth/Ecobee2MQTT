@@ -5,10 +5,10 @@
             <label for="ecobee-apikey">API Key:</label>
             <input type="text" id="ecobee-apikey" name="ecobee-apikey" v-model="apikey" /><br />
             <button @click.prevent=requestPin>Request PIN</button><br />
-            <span>PIN: {{pin}}</span><br />
-            <span>Time Remaining: {{formatTime(timeremaining)}}</span><br />
+            <span>PIN: {{ pin }}</span><br />
+            <span>Time Remaining: {{ formatTime(timeremaining) }}</span><br />
             <span v-if="timeremaining <= 0">PIN expired. Please request a new PIN.</span><br />
-            <button>Complete Authorization</button>
+            <button @click.prevent=getToken>Complete Authorization</button>
         </form>
     </div>
 </template>
@@ -27,15 +27,15 @@ const requestPin = () => {
         params: {
             apikey: apikey.value,
         }
-    }).then((resp) => {
+    }).then(resp => {
         console.log(resp.data);
         pin.value = resp.data.ecobeePin;
 
         timeremaining.value = resp.data.expires_in;
         timer = setInterval(onTimerTick, 1000);
-    }).catch((error) => {
+    }).catch(error => {
         console.error(error);
-    })
+    });
 };
 
 const onTimerTick = () => {
@@ -43,11 +43,15 @@ const onTimerTick = () => {
     if (timeremaining.value <= 0) {
         clearInterval(timer);
     }
-}
+};
 
 const formatTime = (seconds: number) => {
     return Math.floor(seconds / 60) + ':' + ('0' + Math.floor(seconds % 60)).slice(-2);
-}
+};
+
+const getToken = () => {
+    axios.get('http://localhost:3001/api/token');
+};
 
 </script>
 

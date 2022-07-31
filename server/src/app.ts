@@ -20,7 +20,24 @@ const authorizeHandler: RequestHandler = (req, res) => {
         console.error(error);
     });
 };
+
+const tokenHandler: RequestHandler = (req, res) => {
+    axios.post('https://api.ecobee.com/token', {}, {
+        params: {
+            grant_type: 'ecobeePin',
+            code: '<AUTHCODE>',
+            client_id: '<APPKEY>',
+            ecobee_type: 'jwt'
+        }
+    }).then(resp => {
+        console.log(resp);
+    }).catch(error => {
+        console.log(error);
+    });
+};
+
 app.get('/api/authorize', authorizeHandler);
+app.get('/api/token', tokenHandler);
 
 app.use(express.static(path.join(__dirname, './www')));
 
