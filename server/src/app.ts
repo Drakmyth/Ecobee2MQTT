@@ -44,9 +44,24 @@ let settings = default_settings;
 await fs.readFile(settingsFilePath, 'utf-8')
     .then(data => {
         settings = yaml.load(data) as E2MSettings;
+        console.log('Loaded config file');
     })
-    .catch(error => {
-        console.error(error);
+    .catch(async err => {
+        if (err && err.code === 'ENOENT') {
+            const fileContents = yaml.dump(default_settings);
+            await fs.writeFile(settingsFilePath, fileContents, 'utf-8')
+                .then(() => {
+                    console.log('Created default config file');
+                })
+                .catch(err => {
+                    if (err) {
+                        console.error(err);
+                    } else {
+                    }
+                });
+        } else {
+            console.error(err);
+        }
     });
 
 console.log(settings);
