@@ -5,7 +5,7 @@
     "description": "A software bridge to access sensor data and allow communication with Ecobee APIs via MQTT topics.",
     "scripts": {
         "build": "tsc --project tsconfig.build.json",
-        "serve": "nodemon -x \"node --loader ts-node/esm\" -e ts,json src/server.ts",
+        "serve": "nodemon -x \"node --loader ts-node/esm\" -e ts,json,yaml src/server.ts",
         "test": "jest",
         "test:coverage": "jest --coverage"
     },
