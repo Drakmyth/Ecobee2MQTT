@@ -51,10 +51,6 @@ const authorizeHandler: RequestHandler = (req, res) => {
     });
 };
 
-const apiHandler: RequestHandler = (req, res) => {
-    res.json({ message: 'Hello from server!' });
-};
-
 const tokenHandler: RequestHandler = (req, res) => {
     axios.post('https://api.ecobee.com/token', {}, {
         params: {
