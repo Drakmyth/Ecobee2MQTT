@@ -1,6 +1,6 @@
 import express, { RequestHandler } from 'express';
 import path from 'node:path';
-import yaml, { YAMLException } from 'js-yaml';
+import yaml from 'js-yaml';
 import fs from 'node:fs/promises';
 import { E2MSettings } from './config.js';
 
