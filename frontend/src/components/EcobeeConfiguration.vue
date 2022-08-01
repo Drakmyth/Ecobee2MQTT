@@ -16,12 +16,21 @@
 <script setup lang="ts">
 import axios from 'axios';
 import { ref } from 'vue';
+import { io } from 'socket.io-client';
 
 const apikey = ref('');
 const pin = ref('');
 const timeremaining = ref(0);
 let timer: number;
 
+const socket = io('ws://localhost:3001');
+
+socket.on('hello', (arg) => {
+    console.log(arg);
+});
+
+
+socket.emit('event', 'Hello from client!');
 const requestPin = () => {
     axios.get('http://localhost:3001/api/authorize', {
         params: {

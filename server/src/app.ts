@@ -1,13 +1,23 @@
 import express, { RequestHandler } from 'express';
 import path from 'node:path';
 import axiosPkg from 'axios';
+const { Axios } = axiosPkg;
 import cors from 'cors';
 import yaml from 'js-yaml';
 import fs from 'node:fs/promises';
 import { E2MSettings } from './config.js';
+import { Server } from 'socket.io';
+import http from 'node:http';
 
 const app = express();
-const { Axios } = axiosPkg;
+const server = http.createServer(app);
+const io = new Server(server, {
+    cors: {
+        origin: '*',
+        methods: ['GET', 'POST']
+    }
+});
+
 const axios = new Axios();
 
 app.use(cors({ origin: true, credentials: true }));
@@ -71,4 +81,15 @@ app.get('/api/token', tokenHandler);
 
 app.use(express.static(path.join(path.dirname('./www'))));
 
-export default app;
+io.on('connection', client => {
+    console.log('client connected');
+    client.emit('hello', 'Hello from server!');
+    client.on('event', data => {
+        console.log(data);
+    });
+    client.on('disconnect', () => {
+        console.log('client disconnected');
+    });
+});
+
+export default server;
