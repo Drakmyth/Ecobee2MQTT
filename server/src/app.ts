@@ -22,10 +22,7 @@ await fs.readFile(settingsFilePath, 'utf-8')
                     console.log('Created default config file');
                 })
                 .catch(err => {
-                    if (err) {
-                        console.error(err);
-                    } else {
-                    }
+                    console.error(err);
                 });
         } else {
             console.error(err);
