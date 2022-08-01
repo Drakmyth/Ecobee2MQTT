@@ -1,6 +1,6 @@
-import app from "./app";
+import app from "./app.js";
 
-const port = 3001;
+const port = globalThis.CONFIG.bridge.port;
 app.listen(port, () => {
     console.log(`Server listening on ${port}`);
 });
