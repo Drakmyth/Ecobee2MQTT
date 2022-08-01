@@ -2,44 +2,12 @@ import express, { RequestHandler } from 'express';
 import path from 'node:path';
 import yaml, { YAMLException } from 'js-yaml';
 import fs from 'node:fs/promises';
+import { E2MSettings } from './config.js';
 
 const app = express();
 
-interface E2MBridgeSettings {
-    enable_auth: boolean,
-    enable_https: boolean;
-}
-
-interface E2MEcobeeSettings { }
-
-interface E2MMQTTSettings {
-    broker: string,
-    use_credentials: boolean,
-    use_ssl: boolean,
-    topic_prefix: string,
-    retain: boolean,
-    qos: number;
-}
-
-class E2MSettings {
-    bridge: E2MBridgeSettings = {
-        enable_auth: false,
-        enable_https: false
-    };
-    ecobee: E2MEcobeeSettings = {};
-    mqtt: E2MMQTTSettings = {
-        broker: '',
-        use_credentials: false,
-        use_ssl: false,
-        topic_prefix: 'ecobee2mqtt',
-        retain: false,
-        qos: 0
-    };
-}
-
-const default_settings = new E2MSettings();
 const settingsFilePath = './config/settings.yaml';
-let settings = default_settings;
+let settings = E2MSettings.getDefaults();
 
 await fs.readFile(settingsFilePath, 'utf-8')
     .then(data => {
@@ -48,7 +16,7 @@ await fs.readFile(settingsFilePath, 'utf-8')
     })
     .catch(async err => {
         if (err && err.code === 'ENOENT') {
-            const fileContents = yaml.dump(default_settings);
+            const fileContents = yaml.dump(settings);
             await fs.writeFile(settingsFilePath, fileContents, 'utf-8')
                 .then(() => {
                     console.log('Created default config file');
@@ -64,7 +32,7 @@ await fs.readFile(settingsFilePath, 'utf-8')
         }
     });
 
-console.log(settings);
+globalThis.CONFIG = settings;
 
 const apiHandler: RequestHandler = (req, res) => {
     res.json({ message: 'Hello from server!' });
