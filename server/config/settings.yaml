@@ -1,0 +1,12 @@
+bridge:
+  port: 3001
+  enable_auth: false
+  enable_https: false
+ecobee: {}
+mqtt:
+  broker: ''
+  use_credentials: false
+  use_ssl: false
+  topic_prefix: ecobee2mqtt
+  retain: false
+  qos: 0
