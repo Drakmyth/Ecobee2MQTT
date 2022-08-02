@@ -52,7 +52,7 @@ interface AuthorizeRequest {
 }
 
 class AuthorizeResponse {
-    constructor(pin: string, expires_in: number) { }
+    constructor(public pin: string, public expires_in: number) { }
 }
 
 interface EcobeeAuthorizeResponse {
@@ -98,8 +98,7 @@ const authorizeHandler: RequestHandler = async (req, res) => {
         const error = await response.json() as EcobeeAuthError;
         console.log('Error Initializing Authorization');
         console.log(error);
-        res.json(error);
-        return;
+        return res.json(error);
     }
 
     console.log('Authorization Initiated');
@@ -108,7 +107,9 @@ const authorizeHandler: RequestHandler = async (req, res) => {
     authorizeInterval = setInterval(async () => {
         await tryGetToken(data.code, body.appkey);
     }, data.interval * 1000);
-    res.json(new AuthorizeResponse(data.ecobeePin, data.expires_in));
+    const authresponse = new AuthorizeResponse(data.ecobeePin, data.expires_in)
+    console.log(authresponse);
+    return res.json(authresponse);
 };
 
 const tryGetToken = async (authcode: string, appkey: string) => {
