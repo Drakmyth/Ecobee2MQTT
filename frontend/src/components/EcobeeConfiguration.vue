@@ -6,40 +6,43 @@
             <input type="text" id="ecobee-apikey" name="ecobee-apikey" v-model="apikey" /><br />
             <button @click.prevent=requestPin>Request PIN</button><br />
             <span>PIN: {{ pin }}</span><br />
-            <span>Time Remaining: {{ formatTime(timeremaining) }}</span><br />
-            <span v-if="timeremaining <= 0">PIN expired. Please request a new PIN.</span><br />
-            <button @click.prevent=getToken>Complete Authorization</button>
+            <div v-if="authStatus === 'pending'">
+                <span v-if="timeremaining > 0">Time Remaining: {{ formatTime(timeremaining) }}</span><br />
+                <span v-if="timeremaining <= 0">PIN expired. Please request a new PIN.</span><br />
+            </div>
+            <span v-if="authStatus === 'authorized'">Account Authorized!</span>
         </form>
     </div>
 </template>
 
 <script setup lang="ts">
 import axios from 'axios';
-import { ref } from 'vue';
+import { Ref, ref } from 'vue';
 import { io } from 'socket.io-client';
+
+type AuthStatus = 'none' | 'pending' | 'authorized';
 
 const apikey = ref('');
 const pin = ref('');
 const timeremaining = ref(0);
 let timer: number;
+let authStatus: Ref<AuthStatus> = ref('none');
 
 const socket = io('ws://localhost:3001');
 
-socket.on('hello', (arg) => {
+socket.on('authorized', (arg) => {
+    authStatus.value = 'authorized';
     console.log(arg);
 });
 
-
-socket.emit('event', 'Hello from client!');
 const requestPin = () => {
-    axios.get('http://localhost:3001/api/authorize', {
-        params: {
-            apikey: apikey.value,
-        }
+    axios.post('http://localhost:3001/api/authorize', {
+        appkey: apikey.value,
+        scope: 'smartWrite'
     }).then(resp => {
         console.log(resp.data);
-        pin.value = resp.data.ecobeePin;
-
+        pin.value = resp.data.pin;
+        authStatus.value = 'pending';
         timeremaining.value = resp.data.expires_in;
         timer = setInterval(onTimerTick, 1000);
     }).catch(error => {
@@ -56,10 +59,6 @@ const onTimerTick = () => {
 
 const formatTime = (seconds: number) => {
     return Math.floor(seconds / 60) + ':' + ('0' + Math.floor(seconds % 60)).slice(-2);
-};
-
-const getToken = () => {
-    axios.get('http://localhost:3001/api/token');
 };
 
 </script>
