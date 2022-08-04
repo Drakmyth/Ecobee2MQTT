@@ -1,14 +1,14 @@
-import express, { RequestHandler } from 'express';
-import * as path from 'node:path';
+import { RequestHandler, default as express } from 'express';
+import { default as path } from 'node:path';
 // import path from 'node:path';
-import cors from 'cors';
-import * as yaml from 'js-yaml';
-import * as fs from 'node:fs/promises';
+import { default as cors } from 'cors';
+import { default as yaml } from 'js-yaml';
+import { default as fs } from 'node:fs/promises';
 import { E2MSettings } from './config.js';
 import { Server } from 'socket.io';
-import * as http from 'node:http';
-import * as bodyParser from 'body-parser';
-import fetch from 'node-fetch';
+import { default as http } from 'node:http';
+import { default as bodyParser } from 'body-parser';
+import { default as fetch } from 'node-fetch';
 import * as ecobee from './services/ecobee.js';
 
 const app = express();
