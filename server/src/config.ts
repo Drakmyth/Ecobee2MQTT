@@ -33,7 +33,7 @@ export class E2MSettings {
 
     static getDefaults = () => {
         return new E2MSettings();
-    }
+    };
 }
 
 declare global {

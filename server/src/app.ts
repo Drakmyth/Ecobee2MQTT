@@ -1,16 +1,18 @@
 import express, { RequestHandler } from 'express';
-import path from 'node:path';
+import * as path from 'node:path';
+// import path from 'node:path';
 import cors from 'cors';
-import yaml from 'js-yaml';
-import fs from 'node:fs/promises';
+import * as yaml from 'js-yaml';
+import * as fs from 'node:fs/promises';
 import { E2MSettings } from './config.js';
 import { Server } from 'socket.io';
-import http from 'node:http';
-import bodyParser from 'body-parser';
+import * as http from 'node:http';
+import * as bodyParser from 'body-parser';
 import fetch from 'node-fetch';
+import * as ecobee from './services/ecobee.js';
 
 const app = express();
-const server = http.createServer(app);
+export const server = http.createServer(app);
 const io = new Server(server, {
     cors: {
         origin: '*',
@@ -107,7 +109,7 @@ const authorizeHandler: RequestHandler = async (req, res) => {
     authorizeInterval = setInterval(async () => {
         await tryGetToken(data.code, body.appkey);
     }, data.interval * 1000);
-    const authresponse = new AuthorizeResponse(data.ecobeePin, data.expires_in)
+    const authresponse = new AuthorizeResponse(data.ecobeePin, data.expires_in);
     console.log(authresponse);
     return res.json(authresponse);
 };
@@ -150,5 +152,3 @@ io.on('connection', client => {
         console.log('client disconnected');
     });
 });
-
-export default server;

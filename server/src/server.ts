@@ -1,6 +1,6 @@
-import app from "./app.js";
+import { server } from "./app.js";
 
 const port = globalThis.CONFIG.bridge.port;
-app.listen(port, () => {
+server.listen(port, () => {
     console.log(`Server listening on ${port}`);
 });
