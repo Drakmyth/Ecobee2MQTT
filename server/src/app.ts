@@ -27,7 +27,6 @@ io.on('connection', client => {
 
 const settingsFilePath = './config/settings.yaml';
 let settings = E2MSettings.getDefaults();
-let authorizeInterval: NodeJS.Timer;
 
 await fs.readFile(settingsFilePath, 'utf-8')
     .then(data => {
@@ -70,7 +69,7 @@ const onAuthError = (error: EcobeeAuthError) => {
     console.log(error);
 };
 
-app.post('/api/authorize', async (req, res) => {
+app.post('/api/authorization', async (req, res) => {
     console.log('\nInitiate Authorization Process...');
     const body = req.body as AuthorizeRequest;
     const authPin = await authorizeEcobee(body.appkey, body.scope, {
