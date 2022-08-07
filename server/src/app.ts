@@ -62,3 +62,14 @@ app.post('/api/authorization', async (req, res) => {
     console.log(authPin);
     return res.json(authPin);
 });
+
+app.get('/api/authorization', (req, res) => {
+    const appkey = globalThis.SECRETS.ecobee_auth.appkey;
+    if (appkey.length > 0) {
+        return res.status(200).json({
+            appkey
+        });
+    }
+
+    return res.sendStatus(404);
+});
