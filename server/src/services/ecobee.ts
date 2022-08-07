@@ -32,13 +32,13 @@ export interface AuthorizationPin {
 let authorizeInterval: NodeJS.Timer;
 
 export interface AuthorizeOptions {
-    onSuccess: (token: EcobeeToken) => void,
+    onSuccess: (appkey: string, token: EcobeeToken) => void,
     onError?: (error: EcobeeAuthError) => void;
 }
 
 export const authorize = async (appkey: string, scope: string, opts: AuthorizeOptions): Promise<AuthorizationPin> => {
     clearInterval(authorizeInterval);
-    
+
     const params = new URLSearchParams({
         response_type: 'ecobeePin',
         client_id: appkey,
@@ -60,7 +60,7 @@ export const authorize = async (appkey: string, scope: string, opts: AuthorizeOp
     };
 };
 
-const tryGetToken = async (authcode: string, appkey: string, opts: AuthorizeOptions) => {
+const tryGetToken = async (authcode: string, appkey: string, opts: AuthorizeOptions): Promise<void> => {
     console.log(`\nVerifying Authorization: ${authcode}...`);
     const params = new URLSearchParams({
         grant_type: 'ecobeePin',
@@ -85,5 +85,5 @@ const tryGetToken = async (authcode: string, appkey: string, opts: AuthorizeOpti
     console.log('Authorization Verified');
     const token = await response.json() as EcobeeToken;
     clearInterval(authorizeInterval);
-    opts.onSuccess(token);
+    opts.onSuccess(appkey, token);
 };

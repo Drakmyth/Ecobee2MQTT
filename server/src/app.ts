@@ -1,9 +1,7 @@
 import { default as express } from 'express';
 import { default as path } from 'node:path';
 import { default as cors } from 'cors';
-import { default as yaml } from 'js-yaml';
-import { default as fs } from 'node:fs/promises';
-import { E2MSettings } from './config.js';
+import { loadSecrets, loadSettings, saveSecrets } from './config.js';
 import { Server } from 'socket.io';
 import { default as http } from 'node:http';
 import { default as bodyParser } from 'body-parser';
@@ -25,30 +23,11 @@ io.on('connection', client => {
     });
 });
 
-const settingsFilePath = './config/settings.yaml';
-let settings = E2MSettings.getDefaults();
-
-await fs.readFile(settingsFilePath, 'utf-8')
-    .then(data => {
-        settings = yaml.load(data) as E2MSettings;
-        console.log('Loaded config file');
-    })
-    .catch(async err => {
-        if (err && err.code === 'ENOENT') {
-            const fileContents = yaml.dump(settings);
-            await fs.writeFile(settingsFilePath, fileContents, 'utf-8')
-                .then(() => {
-                    console.log('Created default config file');
-                })
-                .catch(err => {
-                    console.error(err);
-                });
-        } else {
-            console.error(err);
-        }
-    });
+let settings = await loadSettings();
+let secrets = await loadSecrets();
 
 globalThis.CONFIG = settings;
+globalThis.SECRETS = secrets;
 
 app.use(cors({ origin: true, credentials: true }));
 app.use(bodyParser.json());
@@ -59,13 +38,17 @@ interface AuthorizeRequest {
     scope: string;
 }
 
-const onAuthSuccess = (token: EcobeeToken) => {
+const onAuthSuccess = async (appkey: string, token: EcobeeToken): Promise<void> => {
     console.log(token);
-    // TODO: persist token to file
+    globalThis.SECRETS.ecobee_auth = {
+        appkey,
+        refresh_token: token.refresh_token
+    };
+    await saveSecrets(globalThis.SECRETS);
     io.emit('authorized', 'success');
 };
 
-const onAuthError = (error: EcobeeAuthError) => {
+const onAuthError = (error: EcobeeAuthError): void => {
     console.log(error);
 };
 
