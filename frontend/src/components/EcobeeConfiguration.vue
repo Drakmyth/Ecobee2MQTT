@@ -2,8 +2,8 @@
     <div class="ecobee-config">
         <h2>Ecobee Configuration</h2>
         <form>
-            <label for="ecobee-apikey">API Key:</label>
-            <input type="text" id="ecobee-apikey" name="ecobee-apikey" v-model="apikey" /><br />
+            <label for="ecobee-appkey">App Key:</label>
+            <input type="text" id="ecobee-appkey" name="ecobee-appkey" v-model="appkey" /><br />
             <button @click.prevent=requestPin>Request PIN</button><br />
             <span>PIN: {{ pin }}</span><br />
             <div v-if="authStatus === 'pending'">
@@ -22,7 +22,7 @@ import { io } from 'socket.io-client';
 
 type AuthStatus = 'none' | 'pending' | 'authorized';
 
-const apikey = ref('');
+const appkey = ref('');
 const pin = ref('');
 const timeremaining = ref(0);
 let timer: number;
@@ -36,8 +36,8 @@ socket.on('authorized', (arg) => {
 });
 
 const requestPin = () => {
-    axios.post('http://localhost:3001/api/authorize', {
-        appkey: apikey.value,
+    axios.post('http://localhost:3001/api/authorization', {
+        appkey: appkey.value,
         scope: 'smartWrite'
     }).then(resp => {
         console.log(resp.data);
