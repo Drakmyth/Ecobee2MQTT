@@ -1,5 +1,4 @@
 import type { Config } from '@jest/types';
-import { default as jest } from 'jest';
 
 const config: Config.InitialOptions = {
     preset: 'ts-jest/presets/default-esm',
