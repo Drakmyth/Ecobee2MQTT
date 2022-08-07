@@ -1,0 +1,25 @@
+{
+    "folders": [
+        {
+            "name": "Ecobee2MQTT",
+            "path": "."
+        },
+        {
+            "name": "frontend",
+            "path": "./frontend"
+        },
+        {
+            "name": "server",
+            "path": "./server"
+        }
+    ],
+    "settings": {
+        "files.exclude": {
+            "frontend/": true,
+            "server/": true
+        },
+        "jest.disabledWorkspaceFolders": [
+            "Ecobee2MQTT"
+        ]
+    }
+}
