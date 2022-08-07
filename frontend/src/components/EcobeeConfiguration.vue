@@ -14,6 +14,7 @@
             </div>
             <div v-if="authStatus === 'authorized'">
                 <span>Account Authorized!</span>
+                <button @click.prevent=clearAuthorization>Re-Authorize</button>
             </div>
         </form>
     </div>
@@ -45,6 +46,7 @@ const socket = io('ws://localhost:3001');
 
 socket.on('authorized', (arg) => {
     authStatus.value = 'authorized';
+    clearInterval(timer);
     console.log(arg);
 });
 
@@ -63,6 +65,8 @@ const initializeAuthorization = async () => {
 };
 
 const requestPin = () => {
+    clearInterval(timer);
+
     axios.post<AuthorizationCreateResponse>('http://localhost:3001/api/authorization', {
         appkey: appkey.value,
         scope: 'smartWrite'
@@ -74,6 +78,13 @@ const requestPin = () => {
         timer = setInterval(onTimerTick, 1000);
     }).catch(error => {
         console.error(error);
+    });
+};
+
+const clearAuthorization = () => {
+    axios.delete('http://localhost:3001/api/authorization').then(() => {
+        appkey.value = '';
+        authStatus.value = 'none';
     });
 };
 
