@@ -1,10 +1,30 @@
-import app from "../src/app";
-import request from "supertest";
+import { server } from '../src/app.js';
+import request from 'supertest';
 
-describe("GET /api", () => {
-    test("Hello Request", async () => {
-        const result = await request(app).get("/api");
-        expect(JSON.parse(result.text)).toEqual({ message: "Hello from server!" });
+describe('GET /api/authorization', () => {
+    const endpoint = '/api/authorization';
+
+    test('Returns 200 with ecobee authorization', async () => {
+        globalThis.SECRETS = {
+            ecobee_auth: {
+                appkey: 'abcd',
+                refresh_token: 'abcd'
+            }
+        };
+
+        const result = await request(server).get(endpoint);
         expect(result.statusCode).toEqual(200);
+    });
+
+    test('Returns 404 without ecobee authorization', async () => {
+        globalThis.SECRETS = {
+            ecobee_auth: {
+                appkey: '',
+                refresh_token: ''
+            }
+        };
+
+        const result = await request(server).get(endpoint);
+        expect(result.statusCode).toEqual(404);
     });
 });
