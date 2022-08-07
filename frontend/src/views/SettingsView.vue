@@ -6,7 +6,9 @@ import BridgeConfiguration from "@/components/BridgeConfiguration.vue";
 
 <template>
     <div class="settings">
-        <EcobeeConfiguration />
+        <Suspense>
+            <EcobeeConfiguration />
+        </Suspense>
         <MQTTConfiguration />
         <BridgeConfiguration />
     </div>

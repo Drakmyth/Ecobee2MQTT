@@ -4,23 +4,36 @@
         <form>
             <label for="ecobee-appkey">App Key:</label>
             <input type="text" id="ecobee-appkey" name="ecobee-appkey" v-model="appkey" /><br />
-            <button @click.prevent=requestPin>Request PIN</button><br />
-            <span>PIN: {{ pin }}</span><br />
+            <div v-if="authStatus !== 'authorized'">
+                <button @click.prevent=requestPin>Request PIN</button><br />
+                <span>PIN: {{ pin }}</span><br />
+            </div>
             <div v-if="authStatus === 'pending'">
                 <span v-if="timeremaining > 0">Time Remaining: {{ formatTime(timeremaining) }}</span><br />
                 <span v-if="timeremaining <= 0">PIN expired. Please request a new PIN.</span><br />
             </div>
-            <span v-if="authStatus === 'authorized'">Account Authorized!</span>
+            <div v-if="authStatus === 'authorized'">
+                <span>Account Authorized!</span>
+            </div>
         </form>
     </div>
 </template>
 
-<script setup lang="ts">
+<script async setup lang="ts">
 import axios from 'axios';
 import { Ref, ref } from 'vue';
 import { io } from 'socket.io-client';
 
 type AuthStatus = 'none' | 'pending' | 'authorized';
+
+interface Authorization {
+    appkey: string;
+}
+
+interface AuthorizationCreateResponse {
+    pin: string,
+    expires_in: number;
+}
 
 const appkey = ref('');
 const pin = ref('');
@@ -35,8 +48,22 @@ socket.on('authorized', (arg) => {
     console.log(arg);
 });
 
+const initializeAuthorization = async () => {
+    const response = await axios.get<Authorization>('http://localhost:3001/api/authorization');
+    if (response.status === 200) {
+        appkey.value = response.data.appkey;
+        authStatus.value = 'authorized';
+    } else {
+        appkey.value = '';
+        authStatus.value = 'none';
+        if (response.status === 404) {
+            console.error(`Unknown authorization response: ${response}`);
+        }
+    }
+};
+
 const requestPin = () => {
-    axios.post('http://localhost:3001/api/authorization', {
+    axios.post<AuthorizationCreateResponse>('http://localhost:3001/api/authorization', {
         appkey: appkey.value,
         scope: 'smartWrite'
     }).then(resp => {
@@ -60,6 +87,8 @@ const onTimerTick = () => {
 const formatTime = (seconds: number) => {
     return Math.floor(seconds / 60) + ':' + ('0' + Math.floor(seconds % 60)).slice(-2);
 };
+
+await initializeAuthorization();
 
 </script>
 
