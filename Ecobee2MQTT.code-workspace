@@ -20,6 +20,9 @@
         },
         "jest.disabledWorkspaceFolders": [
             "Ecobee2MQTT"
-        ]
+        ],
+        "jest.nodeEnv": {
+            "NODE_OPTIONS": "--experimental-vm-modules"
+        }
     }
 }
