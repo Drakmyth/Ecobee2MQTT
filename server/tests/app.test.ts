@@ -5,15 +5,18 @@ describe('GET /api/authorization', () => {
     const endpoint = '/api/authorization';
 
     test('Returns 200 with ecobee authorization', async () => {
+        const appkey = 'abcd';
+
         globalThis.SECRETS = {
             ecobee_auth: {
-                appkey: 'abcd',
-                refresh_token: 'abcd'
+                appkey,
+                refresh_token: 'efgh'
             }
         };
 
         const result = await request(server).get(endpoint);
         expect(result.statusCode).toEqual(200);
+        expect(result.body).toEqual({ appkey });
     });
 
     test('Returns 404 without ecobee authorization', async () => {
