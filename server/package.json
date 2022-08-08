@@ -8,7 +8,7 @@
         "debug": "node --loader ts-node/esm src/server.ts",
         "serve": "nodemon -x \"node --experimental-loader=ts-node/esm\" -e ts,json,yaml src/server.ts",
         "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest",
-        "test:coverage": "jest --coverage"
+        "test:coverage": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --coverage"
     },
     "repository": {
         "type": "git",

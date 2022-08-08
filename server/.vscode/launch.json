@@ -2,15 +2,33 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Debug Server",
+            "name": "Debug",
             "type": "node",
             "request": "launch",
-            "cwd": "${workspaceFolder}/server",
+            "cwd": "${workspaceFolder}",
             "runtimeExecutable": "npm",
             "runtimeArgs": [
                 "run-script",
                 "debug"
             ]
+        },
+        {
+            "name": "Debug Tests",
+            "type": "node",
+            "request": "launch",
+            "env": {
+                "CI": "true",
+                "NODE_OPTIONS": "--experimental-vm-modules"
+            },
+            "cwd": "${workspaceFolder}",
+            "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/jest",
+            "runtimeArgs": [
+                "--runInBand",
+                "--no-cache",
+                "--testTimeout=43200000"
+            ],
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen"
         }
     ]
 }
