@@ -5,17 +5,20 @@ const config: Config.InitialOptions = {
     testEnvironment: 'node',
     globals: {
         'ts-jest': {
-            useESM: true
+            useESM: true,
+            diagnostics: {
+                ignoreCodes: ['TS151001'],
+            },
         }
     },
     moduleNameMapper: {
         '^(\\.{1,2}/.*)\\.js$': '$1'
     },
+    extensionsToTreatAsEsm: ['.ts'],
     collectCoverageFrom: [
         'src/**/*.ts',
         '!src/server.ts'
     ],
-    extensionsToTreatAsEsm: ['.ts'],
     silent: true
 };
 export default config;
