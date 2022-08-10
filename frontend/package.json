@@ -1,12 +1,13 @@
 {
+    "type": "module",
     "name": "ecobee2mqtt-frontend",
     "version": "1.0.0",
     "description": "A software bridge to access sensor data and allow communication with Ecobee APIs via MQTT topics.",
     "scripts": {
         "build": "vue-tsc --noEmit && vite build",
         "serve": "vite",
-        "test": "jest",
-        "test:coverage": "jest --coverage"
+        "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest",
+        "test:coverage": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --coverage"
     },
     "repository": {
         "type": "git",
@@ -36,6 +37,7 @@
         "@vitejs/plugin-vue-jsx": "^2.0.0",
         "@vue/test-utils": "^2.0.2",
         "@vue/vue3-jest": "^28.0.1",
+        "cross-env": "^7.0.3",
         "jest": "^28.1.3",
         "jest-environment-jsdom": "^28.1.3",
         "ts-jest": "^28.0.7",

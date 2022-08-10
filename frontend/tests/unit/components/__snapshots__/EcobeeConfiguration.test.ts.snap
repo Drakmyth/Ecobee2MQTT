@@ -3,6 +3,10 @@
 exports[`EcobeeConfiguration.vue renders correctly 1`] = `
 "<div class=\\"ecobee-config\\">
   <h2>Ecobee Configuration</h2>
-  <form><label for=\\"ecobee-apikey\\">API Key:</label><input type=\\"text\\" id=\\"ecobee-apikey\\" name=\\"ecobee-apikey\\"><br><button>Request PIN</button><br><span>PIN:</span><span>ABC123</span><br><span>Time Remaining:</span><span>9:32</span><br><button>Complete Authorization</button></form>
+  <form><label for=\\"ecobee-appkey\\">App Key:</label><input type=\\"text\\" id=\\"ecobee-appkey\\" name=\\"ecobee-appkey\\"><br>
+    <div><button>Request PIN</button><br><span>PIN: </span><br></div>
+    <!--v-if-->
+    <!--v-if-->
+  </form>
 </div>"
 `;

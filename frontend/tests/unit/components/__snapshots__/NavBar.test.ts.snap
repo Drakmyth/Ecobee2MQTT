@@ -4,10 +4,10 @@ exports[`NavBar.vue renders correctly 1`] = `
 "<nav class=\\"navbar\\"><span class=\\"navbar-title\\">Ecobee2MQTT</span>
   <ul>
     <li>
-      <router-link-stub to=\\"/\\" replace=\\"false\\" custom=\\"false\\" ariacurrentvalue=\\"page\\"></router-link-stub>
+      <!--[object Object]-->
     </li>
     <li>
-      <router-link-stub to=\\"/settings\\" replace=\\"false\\" custom=\\"false\\" ariacurrentvalue=\\"page\\"></router-link-stub>
+      <!--[object Object]-->
     </li>
   </ul>
 </nav>"

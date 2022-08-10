@@ -2,6 +2,6 @@
 
 exports[`HomeView.vue renders correctly 1`] = `
 "<main>
-  <the-welcome-stub></the-welcome-stub>
+  <!---->
 </main>"
 `;

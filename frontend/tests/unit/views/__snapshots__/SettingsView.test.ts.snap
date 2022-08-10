@@ -2,8 +2,8 @@
 
 exports[`SettingsView.vue renders correctly 1`] = `
 "<div class=\\"settings\\">
-  <ecobee-configuration-stub></ecobee-configuration-stub>
-  <m-q-t-t-configuration-stub></m-q-t-t-configuration-stub>
-  <bridge-configuration-stub></bridge-configuration-stub>
+  <suspense-stub></suspense-stub>
+  <!---->
+  <!---->
 </div>"
 `;

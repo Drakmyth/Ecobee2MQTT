@@ -1,16 +1,16 @@
 {
+    "esm": true,
     "compilerOptions": {
-        "target": "ESNext",
-        "module": "ESNext",
-        "strict": true,
-        "jsx": "preserve",
-        "moduleResolution": "Node",
-        "esModuleInterop": true,
         "sourceMap": true,
+        "strict": true,
+        "module": "Node16",
+        "moduleResolution": "Node",
+        "target": "ES2021",
+        "jsx": "preserve",
         "resolveJsonModule": true,
         "useDefineForClassFields": true,
         "lib": [
-            "ESNext",
+            "ES2021",
             "DOM"
         ],
         "baseUrl": ".",

@@ -2,7 +2,6 @@
 
 exports[`App.vue renders correctly 1`] = `
 "<header>
-  <nav-bar-stub></nav-bar-stub>
-</header>
-<router-view-stub name=\\"default\\"></router-view-stub>"
+  <!---->
+</header>"
 `;
